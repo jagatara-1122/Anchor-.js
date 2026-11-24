@@ -74,7 +74,7 @@ AnchorMovement.prototype.update = function(dt) {
 AnchorMovement.prototype.AnchorMovementListener = AnchorMovementListener;
 
 AnchorMovement.prototype.addAnchorListener = function(name , anchorMovementListener = new AnchorMovementListener()) {
-    this.anchorMovementListener.set(name, movementListener);
+    this.anchorMovementListener.set(name, anchorMovementListener);
     this.anchorMovementListenerB.set(name, false);
     return true;
 }
