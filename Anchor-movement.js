@@ -1,6 +1,6 @@
-var Movement = pc.createScript('movement');
+var AnchorMovement = pc.createScript('anchorMovement');
 
-class MovementListener {
+class AnchorMovementListener {
     constructor(entityData, event = ()=> ({boolean: false}), vector = new pc.Vec3(0, 0, 0), moveOption = {rigid: false, slip: true, local: false, normalize: false, customVector: false}) {
         this.entity = entityData;
         this.event = event;
@@ -54,39 +54,39 @@ class MovementListener {
 }
 
 // initialize code called once per entity
-Movement.prototype.initialize = function() {
-    this.movementListener = new Map();
-    this.movementListenerB = new Map();
-    this.app.movement = this;
+AnchorMovement.prototype.initialize = function() {
+    this.anchorMovementListener = new Map();
+    this.anchorMovementListenerB = new Map();
+    this.app.anchorMovement = this;
 };
 
 // update code called every frame
-Movement.prototype.update = function(dt) {
-    for(const [name, listen] of this.movementListener){
+AnchorMovement.prototype.update = function(dt) {
+    for(const [name, listen] of this.anchorMovementListener){
         if(listen.entity && !listen.entity.destroyed) {
-            this.movementListenerB.set(name, listen.go(dt));
+            this.anchorMovementListenerB.set(name, listen.go(dt));
         }else{
-            this.delMovementListener(name);
+            this.delAnchorMovementListener(name);
         }
     }
 };
 
-Movement.prototype.MovementListener = MovementListener;
+AnchorMovement.prototype.AnchorMovementListener = AnchorMovementListener;
 
-Movement.prototype.addListener = function(name , movementListener = new MovementListener()) {
-    this.movementListener.set(name, movementListener);
-    this.movementListenerB.set(name, false);
+AnchorMovement.prototype.addAnchorListener = function(name , anchorMovementListener = new AnchorMovementListener()) {
+    this.anchorMovementListener.set(name, movementListener);
+    this.anchorMovementListenerB.set(name, false);
     return true;
 }
 
-Movement.prototype.addMovementListener = function(name, entityData = null, event, vector, moveOption) {
+AnchorMovement.prototype.addAnchorMovementListener = function(name, entityData = null, event, vector, moveOption) {
     if(entityData === null) return undefined;
-    if(this.movementListener.get(name) !== undefined) return false;
-    return this.addListener(name, new MovementListener(entityData, event, vector, moveOption));
+    if(this.anchorMovementListener.get(name) !== undefined) return false;
+    return this.addAnchorListener(name, new AnchorMovementListener(entityData, event, vector, moveOption));
 }
-Movement.prototype.delMovementListener = function(name) {
-    return {movementListener: this.movementListener.delete(name),
-        movementListenerB: this.movementListenerB.delete(name)
+AnchorMovement.prototype.delAnchorMovementListener = function(name) {
+    return {anchorMovementListener: this.anchorMovementListener.delete(name),
+        anchorMovementListenerB: this.anchorMovementListenerB.delete(name)
     };
 }
 // uncomment the swap method to enable hot-reloading for this script
